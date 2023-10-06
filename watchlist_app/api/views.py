@@ -1,0 +1,27 @@
+from watchlist_app.models import Movie
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from watchlist_app.api.serializers import MovieSerializer
+from rest_framework.renderers import JSONRenderer
+
+
+@api_view()
+def movie_list(request):
+    movies = Movie.objects.all()
+    serializer = MovieSerializer(movies, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+def movie_details(request, pk):
+    if request.method == 'GET':
+        movie = Movie.objects.get(pk=pk)
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
+    if request.method == 'POST':
+        serializer = MovieSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
