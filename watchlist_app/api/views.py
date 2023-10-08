@@ -29,7 +29,7 @@ def movie_details(request, pk):
         try:
             movie = Movie.objects.get(pk=pk)
         except Movie.DoesNotExist:
-            return Response({'Error': 'Movie does not Found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Movie does not Found'}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
