@@ -12,9 +12,16 @@ def UppercaseValidator(value):
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    len_name = serializers.SerializerMethodField()
+
     class Meta:
-        model= Movie
-        fields= '__all__'
+        model = Movie
+        fields = '__all__'
+        # fields= ['name', 'description']
+        # exclude = ['published']
+
+    def get_len_name(self, object):
+        return len(object.name)
 
     def validate_name(self, value):
         """
